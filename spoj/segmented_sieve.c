@@ -19,18 +19,13 @@ uint64_t *initArray(uint64_t n)
 void generatePrime(uint64_t *tmpBuffer, uint64_t n)
 {
 	for(uint64_t i = 2; i*i <= n; i++)
-	{
 		if (tmpBuffer[i] == 0)
-		{
 			for(uint64_t j = 2; i*j <= n; j++)
-			{
 				tmpBuffer[i*j] = 1;
-			}
-		}
-	}
 }
-uint64_t *segementSieve(uint64_t *primeList, uint64_t start, uint64_t end, uint64_t sqrtOfN)
+uint64_t *segementSieve(uint64_t *primeList, uint64_t start, uint64_t end)
 {
+	uint64_t sqrtOfN = (uint64_t)(sqrt(end) + 1);
 	uint64_t size = (end - start +1);
 	uint64_t *numberList =  initArray(size);
 	if (!numberList)
@@ -43,7 +38,8 @@ uint64_t *segementSieve(uint64_t *primeList, uint64_t start, uint64_t end, uint6
 	{
 		if (primeList[i] == 0)
 		{
-			uint64_t tmp = (uint64_t)(ceil((float)start/(float)i));
+			float divider = (float)start/(float)i;
+			uint64_t tmp = (uint64_t)(ceil(divider));
 			tmp = (tmp < 2)?2:tmp;
 			assert(tmp*i >= start);
 			for(uint64_t j = tmp; i*j <= end; j++)
@@ -77,7 +73,7 @@ int main(void)
 	n = (uint64_t)(sqrt(end) + 1);
 	uint64_t *primeList = initArray(n+1);
 	generatePrime(primeList, n);
-	uint64_t *numberList = segementSieve(primeList, start, end, n);
+	uint64_t *numberList = segementSieve(primeList, start, end);
 	if (!numberList)
 		return -1;
 	printPrimeList(numberList,(end-start),start);
