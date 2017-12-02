@@ -1,38 +1,38 @@
-''' Lapindromes'''
 t = int(input())
 for i in range(t):
-    inputStr = input()
-    list_ = list(inputStr)
-    inputStrLength = len(inputStr)
-    mid = int(inputStrLength/2)
-    firrstHalfEnd = secondHalfStart = 0
-    firrstHalfEnd = mid - 1
-    secondHalfStart =  (mid + 1) if (inputStrLength & 1) else mid
-    counter = 0
-    a = {}
-    notFound = 0
+    string = list(input())
+    A = {}
+    B = {}
+    stringLength = len(string)
+    mid = int(stringLength/2)
     for i in range(mid):
-        key_value = list_[i]
-        if key_value in a:
-            a[key_value] += 1
+        keyValue = string[i]
+        if keyValue in A:
+            A[keyValue] += 1
         else:
-            a[key_value] = 1
-        counter += 1
+            A[keyValue] = 1
+
+    secondCounter = (mid + 1) if stringLength & 1 else mid
+
+    for i in range(secondCounter,stringLength):
+        keyValue = string[i]
+        if keyValue in B:
+            B[keyValue] += 1
+        else:
+            B[keyValue] = 1
     
-    for i in range(secondHalfStart, inputStrLength):
-        key_value = list_[i]
-        if key_value in a.keys():
-            a[key_value] -= 1
-            counter -= 1
-            if not a[key_value]:
-                a.pop(key_value)
-        else:
-            notFound = 1
+    flag = 1
+
+    for i in A.keys():
+        try:
+            if A[i] == B[i]:
+                continue
+            else:
+                raise KeyError
+        except KeyError:
+            flag = 0
             break
-    #print(a.keys())
-    #print(a.values())
-    if not bool(a) and not notFound:
+    if(flag):
         print("YES")
     else:
         print("NO")
-        
